@@ -8,7 +8,6 @@ static final int GRADIENT_MODE = 1;
 static final int PAINT_MODE = 2;
 
 public class Gradient {
-
   int _height;
   int _width;
   int _resolution;
@@ -21,6 +20,7 @@ public class Gradient {
   int _direction;
   int _mode;
   int _brushSize;
+  int _wormholeSize = 255;
   boolean isDirty =false;
 
   public Gradient (int xPos, int yPos, int w, int h, color c1, color c2, int direction, int resolution) {
@@ -126,9 +126,11 @@ public class Gradient {
       _pg.beginDraw();
       _pg.background(255);
       _pg.noStroke();
-      for(int i =1 ; i<=255; i++){
-        _pg.fill(255 -i);
-        _pg.ellipse(_xPos, _yPos, 255 -i, 255-i);
+      for(int i =1 ; i<=_wormholeSize; i++){
+        float inter = 1- map(i, 1, _wormholeSize, 0, 1);
+        color c = lerpColor(_c1, _c2, inter);
+        _pg.fill(c);
+        _pg.ellipse(_xPos, _yPos, _wormholeSize -i, _wormholeSize-i);
       }
       _pg.endDraw();
   }
@@ -165,7 +167,13 @@ public class Gradient {
 
   void incrementBrushSize(int i){
     _brushSize += i;
-    _brushSize = max (1, _brushSize);
+    _brushSize = max(1, _brushSize);
     println("Brush size : " + _brushSize);
+  }
+
+  void incrementWormhole(int i){
+    _wormholeSize += i;
+    _wormholeSize = max(1, _wormholeSize);
+    isDirty = true; 
   }
 }

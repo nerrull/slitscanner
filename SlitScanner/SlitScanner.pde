@@ -72,10 +72,10 @@ int EXPORT_MODE = PNG;
 
 String OUT_PATH = "out/cheetah/";
 String VIDEO_PATH = "cheetah.mov";
-int VIDEO_WIDTH = 640;
-int VIDEO_HEIGHT = 360;
+int VIDEO_WIDTH = 1280;
+int VIDEO_HEIGHT = 720;
 int MAX_DELAY = 30;
-boolean WEBCAM_MODE = false;
+boolean WEBCAM_MODE = true;
 int WEBCAM_NUMBER = 8;
 
 boolean EXPORT_FRAMES = false;
@@ -289,25 +289,23 @@ public void export(){
 }
 
 public void incrementDelay(int num){
-   try {
-        lock.acquire();
-
-        }
-        catch (InterruptedException e) {
-          println(e);
-        }
-      MAX_DELAY +=num;
-      if(g._direction == UP ||g._direction ==DOWN )
-        MAX_DELAY = min(MAX_DELAY, height -1);
-
-      else if(g._direction == LEFT ||g._direction ==RIGHT )
-        MAX_DELAY = min(MAX_DELAY, width -1);
-
-      MAX_DELAY = max(MAX_DELAY, 1);
-
-      println("MAX_DELAY : "  + MAX_DELAY);
-      updateArray(num >=0, num);
-      lock.release();
+  try {
+    lock.acquire();
+  }
+  catch (InterruptedException e) {
+    println(e);
+  }
+  MAX_DELAY +=num;
+  if(g._direction == UP ||g._direction ==DOWN ){
+    MAX_DELAY = min(MAX_DELAY, height -1);
+  }
+  else if(g._direction == LEFT ||g._direction ==RIGHT ){
+    MAX_DELAY = min(MAX_DELAY, width -1);
+  }
+  MAX_DELAY = max(MAX_DELAY, 1);
+  println("MAX_DELAY : "  + MAX_DELAY);
+  updateArray(num >=0, num);
+  lock.release();
 }
 
 void mouseClicked(){
@@ -330,6 +328,12 @@ void  keyPressed() {
     break;
     case '3':
       g.setMode(PAINT_MODE);
+    break;
+    case '9':
+      g.incrementWormhole(10);
+    break;
+    case '0':
+      g.incrementWormhole(10);
     break;
     case '=':
       incrementDelay(1);

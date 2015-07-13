@@ -9,7 +9,7 @@ Etienne Richan
 
 This tool simulates the slitscan effect by delaying pixels in a video a certain amount of frames depending on the darknes of a reference gradient image.
 
-Usage:
+#Usage:
 1. Specify a video file path. 
   ***IMPORTANT*** : Videos must be located in the project's 'data' folder. 
   Video must be .mov type (only version tested, maybe other quicktime compatible types are supported)
@@ -17,19 +17,19 @@ Usage:
 3. (Optional) Set max delay. This can be changed while hte program is running.
 
 
-Modes (GRADIENT recommended):
+##Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
   SLITS : Only in the up direction, might run a bit faster than gradient mode. 
 
 
-Key controls:
-Gradient controls:
+#Key controls:
+#Gradient controls:
   w: up gradient
   a: left gradient
   s: right gradient
   d: down gradient
 
-Delay controls:
+#Delay controls:
   Increased max delay means that the gradient is interpreted with a higher resolution, 
   but also means more time delay between the top and the bottom of the video. 
 

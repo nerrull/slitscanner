@@ -18,13 +18,17 @@ This tool simulates the slitscan effect by delaying pixels in a video a certain 
   ***IMPORTANT*** : Videos must be located in the project's 'data' folder. 
   
   Video must be .mov type (only version tested, maybe other quicktime compatible types are supported)
-  
-2. Check video details and set the width and height.
-3. (Optional) Set max delay. This can be changed while hte program is running.
+
+2. Set the output path.
+
+3. Check video details and set the width and height.
+
+4. (Optional) Set max delay. This can be changed while hte program is running.
 
 
 ##Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
+  
   SLITS : Only in the up direction, might run a bit faster than gradient mode. 
 
 

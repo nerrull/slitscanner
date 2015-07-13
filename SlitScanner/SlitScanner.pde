@@ -42,16 +42,22 @@ Delay controls:
 import processing.video.*;
 import java.util.concurrent.*;
 
-static int GRADIENT = 0;
-static int SLITS = 1;
+static final int GRADIENT = 0;
+static final int SLITS = 1;
+
+static final int GIF = 0;
+static final int PNG = 1;
 
 int DELAY_MODE = GRADIENT;
+int EXPORT_MODE = PNG;
+
+String OUT_PATH = "out/cheetah/";
 String VIDEO_PATH = "cheetah.mov";
 int VIDEO_WIDTH = 640;
 int VIDEO_HEIGHT = 360;
 int MAX_DELAY = 30;
 
-
+boolean EXPORT_FRAMES = false;
 
 Movie src_video;
 PImage src_image;
@@ -197,8 +203,26 @@ void movieEvent(Movie m) {
   }
   
   image(result_image, 0,0);
+  if (EXPORT_FRAMES){
+    export();
+  }
   
 }
+int export_count = 0;
+public void export(){
+  String nameString = String.format("foo-%06d",  export_count);
+  switch (EXPORT_MODE){
+    case PNG : 
+      saveFrame(OUT_PATH + "/PNG/" +nameString + ".png");
+    break;
+    case GIF : 
+      saveFrame(OUT_PATH + "/GIF/"+nameString+".gif");
+    break;
+  }
+  export_count ++;
+  
+}
+
 public void incrementSlots(int num){
    try {
         lock.acquire();
@@ -208,7 +232,12 @@ public void incrementSlots(int num){
           println(e);
         }
       MAX_DELAY +=num;
-      MAX_DELAY = min(MAX_DELAY, height -1);
+      if(g._direction == UP ||g._direction ==DOWN )
+        MAX_DELAY = min(MAX_DELAY, height -1);
+
+      else if(g._direction == LEFT ||g._direction ==RIGHT )
+        MAX_DELAY = min(MAX_DELAY, width -1);
+
       MAX_DELAY = max(MAX_DELAY, 1);
 
       println("MAX_DELAY : "  + MAX_DELAY);
@@ -241,6 +270,10 @@ void  keyPressed() {
     break;
     case 'd':
       setGradientDirection(RIGHT);
+    break;
+    case 'e':
+      EXPORT_FRAMES = !EXPORT_FRAMES;
+      println("EXPORT: "+EXPORT_FRAMES);
     break;
   } 
 }

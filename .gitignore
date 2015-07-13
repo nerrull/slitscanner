@@ -1,0 +1,10 @@
+*.dmp
+SlitScanner/Gradient
+*.class
+SlitScanner/data/gold.MOV
+SlitScanner/data/killian_360.mov
+SlitScanner/data/killian_720.mov
+SlitScanner/data/plane.MOV
+SlitScanner/data/skate.mov
+SlitScanner/data/turtle.MOV
+*.java

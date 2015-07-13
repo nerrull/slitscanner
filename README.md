@@ -2,4 +2,5 @@
 Slitscan effect in Processing
 
 Example video :
-[![Alt text for your video](http://img.youtube.com/vi/T-D1KVIuvjA/0.jpg)](http://www.youtube.com/watch?v=T-D1KVIuvjA)
+
+[![Alt text for your video](https://www.youtube.com/watch?v=cNnaRpf-W5U/5.jpg)](https://www.youtube.com/watch?v=cNnaRpf-W5U)

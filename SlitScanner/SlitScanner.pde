@@ -60,13 +60,14 @@ int EXPORT_MODE = PNG;
 
 String OUT_PATH = "out/cheetah/";
 String VIDEO_PATH = "cheetah.mov";
-int VIDEO_WIDTH = 1280;
-int VIDEO_HEIGHT = 720;
+int VIDEO_WIDTH = 640;
+int VIDEO_HEIGHT = 360;
 int MAX_DELAY = 30;
-boolean WEBCAM_MODE = true;
+boolean WEBCAM_MODE = false;
 int WEBCAM_NUMBER = 8;
 
 boolean EXPORT_FRAMES = false;
+boolean SHOW_GRADIENT = false;
 Movie src_video;
 PImage src_image;
 PImage result_image;
@@ -81,7 +82,8 @@ Capture cam;
 void setup() {
 
   size(VIDEO_WIDTH,VIDEO_HEIGHT);
-  g = new Gradient(0, 0, width, height, color(255),color(0), UP, MAX_DELAY);
+  g = new Gradient(0, 0, width, height, color(0),color(255), UP, MAX_DELAY);
+  g.setMode(PAINT_MODE);
   image(g.getGradient(), 0, 0 );
   result_image = createImage(width, height, RGB);
   source_array = new ArrayList();
@@ -113,6 +115,7 @@ void setup() {
    
     src_video = new Movie (this, VIDEO_PATH);
     src_video.loop(); 
+    src_video.volume(0);
   }
 }
 
@@ -129,6 +132,11 @@ void draw() {
     }
   }
   frame.setTitle(int(frameRate) + "fps");
+  if (SHOW_GRADIENT){
+    image(g.getGradient(),0,0);
+  }
+
+  g.updateGradient();
 }
 
 
@@ -176,7 +184,6 @@ void acquireImages(PImage source, ArrayList<PImage> sourceArray){
 }
 
 void copyVideoSlits(ArrayList<PImage> sourceArray, PImage result){
-
   int length =  result.pixels.length/MAX_DELAY;
 
   try {
@@ -244,8 +251,9 @@ void processVideo(){
   {
     copyVideoSlits(source_array, result_image);
   }
-  
-  image(result_image, 0,0);
+  if (!SHOW_GRADIENT){
+    image(result_image, 0,0);
+  }
   if (EXPORT_FRAMES){
     export();
   }  
@@ -290,8 +298,27 @@ public void incrementDelay(int num){
       lock.release();
 }
 
+void mouseClicked(){
+  g.setGradientPosition(mouseX, mouseY);
+
+}
+
+void mouseDragged(){
+  g.setGradientPosition(mouseX, mouseY);
+}
+
+
 void  keyPressed() {
   switch (key) {
+    case '1':
+      g.setMode(GRADIENT_MODE);
+    break;
+    case '2':
+      g.setMode(WORMHOLE_MODE);
+    break;
+    case '3':
+      g.setMode(PAINT_MODE);
+    break;
     case '=':
       incrementDelay(1);
     break;
@@ -303,6 +330,12 @@ void  keyPressed() {
     break;
     case '_':
       incrementDelay(-10);
+    break;
+     case ']':
+      g.incrementBrushSize(10);
+    break;
+    case '[':
+      g.incrementBrushSize(-10);
     break;
     case 'w':
       setGradientDirection(UP);
@@ -319,6 +352,10 @@ void  keyPressed() {
     case 'e':
       EXPORT_FRAMES = !EXPORT_FRAMES;
       println("EXPORT: "+EXPORT_FRAMES);
+    break;
+    case 'g' :
+      println("SHOW_GRADIENT: "+SHOW_GRADIENT);
+      SHOW_GRADIENT = !SHOW_GRADIENT;
     break;
   } 
 }

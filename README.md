@@ -26,6 +26,13 @@ This tool simulates the slitscan effect by delaying pixels in a video by a certa
   SLITS : Only in the up direction, might run a bit faster than gradient mode. 
 
 
+##Webcam mode:
+  1. Set WEBCAM_MODE to true.
+  2. Run the script, it will output a list of the available resolutions for your webcam
+  3. Set WEBCAM_NUMBER to the desired camera resolution
+  4. Set VIDEO_WIDTH and VIDEO_HEIGHT
+
+
 ##Key controls:
 ###Gradient controls:
   w: up gradient

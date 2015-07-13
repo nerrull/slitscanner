@@ -19,6 +19,12 @@ Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
   SLITS : Only in the up direction, might run a bit faster than gradient mode. 
 
+Webcam mode:
+  1. Set WEBCAM_MODE to true.
+  2. Run the script, it will output a list of the available resolutions for your webcam
+  3. Set WEBCAM_NUMBER to the desired camera resolution
+  4. Set VIDEO_WIDTH and VIDEO_HEIGHT
+
 
 Key controls:
 Gradient controls:
@@ -54,12 +60,13 @@ int EXPORT_MODE = PNG;
 
 String OUT_PATH = "out/cheetah/";
 String VIDEO_PATH = "cheetah.mov";
-int VIDEO_WIDTH = 640;
-int VIDEO_HEIGHT = 360;
+int VIDEO_WIDTH = 1280;
+int VIDEO_HEIGHT = 720;
 int MAX_DELAY = 30;
+boolean WEBCAM_MODE = true;
+int WEBCAM_NUMBER = 8;
 
 boolean EXPORT_FRAMES = false;
-
 Movie src_video;
 PImage src_image;
 PImage result_image;
@@ -69,23 +76,58 @@ Semaphore lock;
 boolean first_image = true;
 Gradient g;
 
+Capture cam;
+
 void setup() {
 
   size(VIDEO_WIDTH,VIDEO_HEIGHT);
   g = new Gradient(0, 0, width, height, color(255),color(0), UP, MAX_DELAY);
   image(g.getGradient(), 0, 0 );
-
-  src_video = new Movie (this, VIDEO_PATH);
-  src_video.loop();
   result_image = createImage(width, height, RGB);
   source_array = new ArrayList();
   lock = new Semaphore(1);
 
   frameRate(30);
+
+  if(WEBCAM_MODE)
+  {
+     String[] cameras = Capture.list();
+
+     if (cameras.length == 0) {
+      println("There are no cameras available for capture.");
+      exit();
+      } else {
+        println("Available cameras:");
+        for (int i = 0; i < cameras.length; i++) {
+          println(i + ". " + cameras[i]);
+        }
+      
+      // The camera can be initialized directly using an 
+      // element from the array returned by list():
+      cam = new Capture(this, cameras[WEBCAM_NUMBER]);
+      cam.start();     
+    }      
+  }
+
+  else {
+   
+    src_video = new Movie (this, VIDEO_PATH);
+    src_video.loop(); 
+  }
 }
 
 
 void draw() {
+   if(WEBCAM_MODE)
+  {
+    if(cam.available())
+    {
+      cam.read();
+      src_image = cam.get();
+      src_image.loadPixels();
+      processVideo();
+    }
+  }
   frame.setTitle(int(frameRate) + "fps");
 }
 
@@ -117,9 +159,7 @@ void updateArray(boolean plus, int num){
 
 void acquireImages(PImage source, ArrayList<PImage> sourceArray){
   try {
-    lock.acquire();
-
-  
+    lock.acquire();  
   }
   catch (InterruptedException e) {
     println(e);
@@ -162,8 +202,6 @@ void copyVideoSlits(ArrayList<PImage> sourceArray, PImage result){
 
 
 void copyVideoGradient(ArrayList<PImage> sourceArray, PImage result){
-
-
   try {
     lock.acquire();
   }
@@ -185,14 +223,18 @@ void copyVideoGradient(ArrayList<PImage> sourceArray, PImage result){
 }
 
 void movieEvent(Movie m) {
-  
   m.read();
   src_image = src_video.get();
   src_image.loadPixels();
+  processVideo();
+ 
+}
 
+void processVideo(){
   if (first_image){
     initSourceArray(src_image);
   }
+
   acquireImages(src_image, source_array);
   if (DELAY_MODE == GRADIENT)
   {
@@ -206,9 +248,11 @@ void movieEvent(Movie m) {
   image(result_image, 0,0);
   if (EXPORT_FRAMES){
     export();
-  }
-  
+  }  
+
 }
+
+
 int export_count = 0;
 public void export(){
   String nameString = String.format("foo-%06d",  export_count);
@@ -224,7 +268,7 @@ public void export(){
   
 }
 
-public void incrementSlots(int num){
+public void incrementDelay(int num){
    try {
         lock.acquire();
 
@@ -249,16 +293,16 @@ public void incrementSlots(int num){
 void  keyPressed() {
   switch (key) {
     case '=':
-      incrementSlots(1);
+      incrementDelay(1);
     break;
     case '-':
-      incrementSlots(-1);
+      incrementDelay(-1);
     break;
     case '+':
-      incrementSlots(10);
+      incrementDelay(10);
     break;
     case '_':
-      incrementSlots(-10);
+      incrementDelay(-10);
     break;
     case 'w':
       setGradientDirection(UP);

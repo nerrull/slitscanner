@@ -12,7 +12,7 @@ Etienne Richan
 
 This tool simulates the slitscan effect by delaying pixels in a video a certain amount of frames depending on the darknes of a reference gradient image.
 
-#Usage:
+##Usage:
 1. Specify a video file path. 
 
   ***IMPORTANT*** : Videos must be located in the project's 'data' folder. 
@@ -28,8 +28,8 @@ This tool simulates the slitscan effect by delaying pixels in a video a certain 
   SLITS : Only in the up direction, might run a bit faster than gradient mode. 
 
 
-#Key controls:
-#Gradient controls:
+##Key controls:
+###Gradient controls:
   w: up gradient
   
   a: left gradient
@@ -38,7 +38,7 @@ This tool simulates the slitscan effect by delaying pixels in a video a certain 
   
   d: down gradient
 
-#Delay controls:
+###Delay controls:
  Increased max delay means that the gradient is interpreted with a higher resolution, but also means more time delay between the top and the bottom of the video. 
 
   "=" : Increase max_delay by 1

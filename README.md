@@ -1,15 +1,10 @@
 # slitscanner
-Slitscan effect in Processing
+Slitscan video effect in Processing
 
 [![Example video ](https://www.youtube.com/watch?v=cNnaRpf-W5U/0.jpg)](https://www.youtube.com/watch?v=cNnaRpf-W5U)
 
-Author:
 
-Etienne Richan
-
-12/07/2015
-
-This tool simulates the slitscan effect by delaying pixels in a video a certain amount of frames depending on the darknes of a reference gradient image.
+This tool simulates the slitscan effect by delaying pixels in a video by a certain amount of frames depending on the darkness of a reference gradient image.
 
 ##Usage:
 1. Specify a video file path. 
@@ -53,4 +48,8 @@ This tool simulates the slitscan effect by delaying pixels in a video a certain 
   "SHIFT" + "-" : Decrease max_delay by 10
   
 
+Author:
 
+Etienne Richan
+
+12/07/2015

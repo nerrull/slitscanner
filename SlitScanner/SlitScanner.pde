@@ -10,8 +10,9 @@ Usage:
 1. Specify a video file path. 
   ***IMPORTANT*** : Videos must be located in the project's 'data' folder. 
   Video must be .mov type (only version tested, maybe other quicktime compatible types are supported)
-2. Check video details and set the width and height.
-3. (Optional) Set max delay. This can be changed while hte program is running.
+2. Set the output path.
+3. Check video details and set the width and height.
+4. (Optional) Set max delay. This can be changed while hte program is running.
 
 
 Modes (GRADIENT recommended):

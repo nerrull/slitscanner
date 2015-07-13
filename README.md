@@ -35,13 +35,25 @@ This tool simulates the slitscan effect by delaying pixels in a video by a certa
 
 ##Key controls:
 ###Gradient controls:
+g : toggle gradient visibility (controls still work while gradient is not displayed)
+####Press 1 : GRADIENT mode
   w: up gradient
-  
+
   a: left gradient
-  
+
   s: right gradient
-  
+
   d: down gradient
+
+###Press 2 : WORMHOLE mode
+  Click and drag to place the wormhole 
+
+###Press 3 : PAINT mode
+  Click and drag to paint the gradient layer
+
+  [ : Decrease brush size by 10
+  
+  ] : Increase brush size by 10
 
 ###Delay controls:
  Increased max delay means that the gradient is interpreted with a higher resolution, but also means more time delay between the top and the bottom of the video. 

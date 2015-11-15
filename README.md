@@ -6,6 +6,10 @@ Slitscan video effect in Processing
 
 This tool simulates the slitscan effect by delaying pixels in a video by a certain amount of frames depending on the darkness of a reference gradient image.
 
+##Important:
+This script uses a semaphore object from java.util.concurrent so if you are getting wierd errors executing it you'll probably need to install JDK 7 or later.
+[JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
 ##Usage:
 1. Specify a video file path. 
 
@@ -20,17 +24,17 @@ This tool simulates the slitscan effect by delaying pixels in a video by a certa
 4. (Optional) Set max delay. This can be changed while hte program is running.
 
 
+##Webcam mode:
+  1. Set WEBCAM_MODE to true.
+  2. Run the script, it will output a list of the available resolutions for your webcam and then probably crash
+  3. Set WEBCAM_NUMBER to the desired camera number in the list
+  4. Set VIDEO_WIDTH and VIDEO_HEIGHT to that camera's resolution
+
+
 ##Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
   
   SLITS : Only in the up direction, might run a bit faster than gradient mode. 
-
-
-##Webcam mode:
-  1. Set WEBCAM_MODE to true.
-  2. Run the script, it will output a list of the available resolutions for your webcam
-  3. Set WEBCAM_NUMBER to the desired camera resolution
-  4. Set VIDEO_WIDTH and VIDEO_HEIGHT
 
 
 ##Key controls:

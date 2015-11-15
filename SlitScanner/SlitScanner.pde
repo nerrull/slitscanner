@@ -72,11 +72,11 @@ int EXPORT_MODE = PNG;
 
 String OUT_PATH = "out/cheetah/";
 String VIDEO_PATH = "cheetah.mov";
-int VIDEO_WIDTH = 1280;
-int VIDEO_HEIGHT = 720;
+int VIDEO_WIDTH = 640;
+int VIDEO_HEIGHT = 480;
 int MAX_DELAY = 30;
 boolean WEBCAM_MODE = true;
-int WEBCAM_NUMBER = 8;
+int WEBCAM_NUMBER = 0;
 
 boolean EXPORT_FRAMES = false;
 boolean SHOW_GRADIENT = false;
@@ -96,7 +96,7 @@ void setup() {
   size(VIDEO_WIDTH,VIDEO_HEIGHT);
   g = new Gradient(0, 0, width, height, color(0),color(255), UP, MAX_DELAY);
   g.setMode(PAINT_MODE);
-  image(g.getGradient(), 0, 0 );
+  image(g.getGradient(), color(0,0,0), color(1,1,1) );
   result_image = createImage(width, height, RGB);
   source_array = new ArrayList();
   lock = new Semaphore(1);
@@ -324,9 +324,12 @@ void  keyPressed() {
       g.setMode(GRADIENT_MODE);
     break;
     case '2':
-      g.setMode(WORMHOLE_MODE);
+      g.setMode(SPLIT_GRADIENT_MODE);
     break;
     case '3':
+      g.setMode(WORMHOLE_MODE);
+    break;
+    case '4':
       g.setMode(PAINT_MODE);
     break;
     case '9':
@@ -365,7 +368,19 @@ void  keyPressed() {
     case 'd':
       setGradientDirection(RIGHT);
     break;
+    case 'q':
+      setGradientDirection(NORTH_WEST);
+    break;
     case 'e':
+      setGradientDirection(NORTH_EAST);
+    break;
+    case 'z':
+      setGradientDirection(SOUTH_WEST);
+    break;
+    case 'c':
+      setGradientDirection(SOUTH_EAST);
+    break;
+    case 'p':
       EXPORT_FRAMES = !EXPORT_FRAMES;
       println("EXPORT: "+EXPORT_FRAMES);
     break;

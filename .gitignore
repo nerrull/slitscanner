@@ -8,3 +8,4 @@ SlitScanner/data/plane.MOV
 SlitScanner/data/skate.mov
 SlitScanner/data/turtle.MOV
 *.java
+.DS_Store

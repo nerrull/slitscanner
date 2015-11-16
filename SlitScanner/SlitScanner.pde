@@ -7,8 +7,8 @@ Etienne Richan
 This tool simulates the slitscan effect by delaying pixels in a video a certain amount of frames depending on the darknes of a reference gradient image.
 
 Usage:
-1. Specify a video file path. 
-  ***IMPORTANT*** : Videos must be located in the project's 'data' folder. 
+1. Specify a video file path.
+  ***IMPORTANT*** : Videos must be located in the project's 'data' folder.
   Video must be .mov type (only version tested, maybe other quicktime compatible types are supported)
 2. Set the output path.
 3. Check video details and set the width and height.
@@ -17,7 +17,7 @@ Usage:
 
 Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
-  SLITS : Only in the up direction, might run a bit faster than gradient mode. 
+  SLITS : Only in the up direction, might run a bit faster than gradient mode.
 
 Webcam mode:
   1. Set WEBCAM_MODE to true.
@@ -37,7 +37,7 @@ g : toggle gradient visibility (controls still work while gradient is not displa
   d: down gradient
 
 2 : WORMHOLE mode
-  Click and drag to place the wormhole 
+  Click and drag to place the wormhole
 
 3 : PAINT mode
   Click and drag to paint the gradient layer
@@ -46,8 +46,8 @@ g : toggle gradient visibility (controls still work while gradient is not displa
 
 
 Delay controls:
-  Increased max delay means that the gradient is interpreted with a higher resolution, 
-  but also means more time delay between the top and the bottom of the video. 
+  Increased max delay means that the gradient is interpreted with a higher resolution,
+  but also means more time delay between the top and the bottom of the video.
 
   = : Increase max_delay by 1
   - : Decrease max_delay by 1
@@ -75,6 +75,7 @@ String VIDEO_PATH = "cheetah.mov";
 int VIDEO_WIDTH = 640;
 int VIDEO_HEIGHT = 480;
 int MAX_DELAY = 30;
+int BRUSH_SIZE = 30;
 boolean WEBCAM_MODE = true;
 int WEBCAM_NUMBER = 0;
 
@@ -93,8 +94,8 @@ Capture cam;
 
 void setup() {
 
-  size(VIDEO_WIDTH,VIDEO_HEIGHT);
-  g = new Gradient(0, 0, width, height, color(0),color(255), UP, MAX_DELAY);
+  surface.setSize(VIDEO_WIDTH,VIDEO_HEIGHT);
+  g = new Gradient(0, 0, width, height, color(0),color(255), UP, MAX_DELAY, BRUSH_SIZE);
   g.setMode(PAINT_MODE);
   image(g.getGradient(), color(0,0,0), color(1,1,1) );
   result_image = createImage(width, height, RGB);
@@ -115,18 +116,18 @@ void setup() {
         for (int i = 0; i < cameras.length; i++) {
           println(i + ". " + cameras[i]);
         }
-      
-      // The camera can be initialized directly using an 
+
+      // The camera can be initialized directly using an
       // element from the array returned by list():
       cam = new Capture(this, cameras[WEBCAM_NUMBER]);
-      cam.start();     
-    }      
+      cam.start();
+    }
   }
 
   else {
-   
+
     src_video = new Movie (this, VIDEO_PATH);
-    src_video.loop(); 
+    src_video.loop();
     src_video.volume(0);
   }
 }
@@ -143,7 +144,7 @@ void draw() {
       processVideo();
     }
   }
-  frame.setTitle(int(frameRate) + "fps");
+  surface.setTitle(int(frameRate) + "fps");
   if (SHOW_GRADIENT){
     image(g.getGradient(),0,0);
   }
@@ -179,13 +180,13 @@ void updateArray(boolean plus, int num){
 
 void acquireImages(PImage source, ArrayList<PImage> sourceArray){
   try {
-    lock.acquire();  
+    lock.acquire();
   }
   catch (InterruptedException e) {
     println(e);
-  }  
+  }
   for( int i = MAX_DELAY -1; i>0; i-- ) {
-    PImage temp =sourceArray.get(i -1); 
+    PImage temp =sourceArray.get(i -1);
     if ( temp != null){
       sourceArray.set(i, temp);
     }
@@ -203,17 +204,17 @@ void copyVideoSlits(ArrayList<PImage> sourceArray, PImage result){
   }
     catch (InterruptedException e) {
       println(e);
-    }  
+    }
   for (int i = 0; i < MAX_DELAY ; i++)
   {
-    PImage temp =sourceArray.get(i); 
+    PImage temp =sourceArray.get(i);
     if(temp != null)
     {
       int pos = i * length;
 
       //println("pos :" + pos);
       System.arraycopy(temp.pixels, pos, result.pixels, pos,  length);
-    }    
+    }
   }
   lock.release();
   result.updatePixels();
@@ -226,7 +227,7 @@ void copyVideoGradient(ArrayList<PImage> sourceArray, PImage result){
   }
     catch (InterruptedException e) {
       println(e);
-    }  
+    }
 
   for ( int x =0; x< width; x++ )
   {
@@ -246,7 +247,7 @@ void movieEvent(Movie m) {
   src_image = src_video.get();
   src_image.loadPixels();
   processVideo();
- 
+
 }
 
 void processVideo(){
@@ -268,7 +269,7 @@ void processVideo(){
   }
   if (EXPORT_FRAMES){
     export();
-  }  
+  }
 
 }
 
@@ -277,15 +278,15 @@ int export_count = 0;
 public void export(){
   String nameString = String.format("foo-%06d",  export_count);
   switch (EXPORT_MODE){
-    case PNG : 
+    case PNG :
       saveFrame(OUT_PATH + "/PNG/" +nameString + ".png");
     break;
-    case GIF : 
+    case GIF :
       saveFrame(OUT_PATH + "/GIF/"+nameString+".gif");
     break;
   }
   export_count ++;
-  
+
 }
 
 public void incrementDelay(int num){
@@ -388,7 +389,7 @@ void  keyPressed() {
       println("SHOW_GRADIENT: "+SHOW_GRADIENT);
       SHOW_GRADIENT = !SHOW_GRADIENT;
     break;
-  } 
+  }
 }
 
 void setGradientDirection(int d){
@@ -396,4 +397,3 @@ void setGradientDirection(int d){
     g.setGradientDirection(d);
   }
 }
-

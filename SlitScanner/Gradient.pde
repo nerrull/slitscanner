@@ -28,7 +28,7 @@ public class Gradient {
   int _wormholeSize = 255;
   boolean isDirty =false;
 
-  public Gradient (int xPos, int yPos, int w, int h, color c1, color c2, int direction, int resolution) {
+  public Gradient (int xPos, int yPos, int w, int h, color c1, color c2, int direction, int resolution, int brushsize) {
     _resolution = resolution;
     _width = w;
     _height = h;
@@ -39,7 +39,7 @@ public class Gradient {
     _yPos = yPos;
     _direction = direction;
     _mode = GRADIENT_MODE;
-    _brushSize = 30;
+    _brushSize = brushsize;
 
     drawGradient();
   }
@@ -51,7 +51,7 @@ public class Gradient {
   int getDelayValue( int x, int y, int max_delay){
 
       color c = _pg.pixels[y*_pg.width+x];
-      //Use the red value 
+      //Use the red value
       int val = 255 -(c >> 16 &0xFF);
       int delay = (int) min(max_delay -1, (val/255.0 *max_delay)) ;
       return delay;
@@ -68,29 +68,29 @@ public class Gradient {
     _pg.noFill();
     _pg.beginDraw();
     if (_direction == UP) {  // Top to bottom gradient
-      println("Gradient UP"); 
+      println("Gradient UP");
       for (int i = _yPos; i <= _yPos+_height; i++) {
         float inter = map(i, _yPos, _yPos+_height, 0, 1);
         color c = lerpColor(_c1, _c2, inter);
         _pg.stroke(c);
         _pg.line(_xPos, i, _xPos+_width, i);
-       
+
       }
-    }  
+    }
 
      else if (_direction == DOWN) {  // Top to bottom gradient
-      println("Gradient Down"); 
+      println("Gradient Down");
       for (int i = _yPos; i <= _yPos+_height; i++) {
         float inter = map(i, _yPos, _yPos+_height, 0, 1);
         color c = lerpColor(_c2, _c1, inter);
         _pg.stroke(c);
         _pg.line(_xPos, i, _xPos+_width, i);
-       
+
       }
-    }  
+    }
 
     else if (_direction == LEFT) {  // Left to right gradient
-      println("Gradient LEFT"); 
+      println("Gradient LEFT");
       for (int i = _xPos; i <= _xPos+_width; i++) {
         float inter = map(i, _xPos, _xPos+_width, 0, 1);
         color c = lerpColor(_c1, _c2, inter);
@@ -99,7 +99,7 @@ public class Gradient {
       }
     }
     else if (_direction == RIGHT) {  // Left to right gradient
-      println("Gradient RIGHT"); 
+      println("Gradient RIGHT");
       for (int i = _xPos; i <= _xPos+_width; i++) {
         float inter = map(i, _xPos, _xPos+_width, 0, 1);
         color c = lerpColor(_c2, _c1, inter);
@@ -118,44 +118,44 @@ public class Gradient {
     _pg.beginDraw();
     _pg.background(255, 255, 255, 255);
     if (_direction == UP) {  // Top to bottom gradient
-      println("Gradient UP"); 
+      println("Gradient UP");
       drawDoubleVerticalGradient(_pg, _c1, _c2, _yPos, 1);
-    }  
+    }
 
     if (_direction == DOWN) {  // Top to bottom gradient
-      println("Gradient DOWN"); 
+      println("Gradient DOWN");
       drawDoubleVerticalGradient(_pg, _c2, _c1, _yPos, 1);
     }
 
     else if (_direction == LEFT) {  // Left to right gradient
-      println("Gradient LEFT"); 
+      println("Gradient LEFT");
       drawDoubleHorizontalGradient(_pg, _c1, _c2, _xPos, 1);
     }
     else if (_direction == RIGHT) {  // Left to right gradient
-      println("Gradient RIGHT"); 
+      println("Gradient RIGHT");
       drawDoubleHorizontalGradient(_pg, _c2, _c1, _xPos, 1);
     }
 
     else if(_direction == NORTH_EAST){
-      println("Gradient UP +RIGHT"); 
+      println("Gradient UP +RIGHT");
       drawDoubleVerticalGradient(_pg, _c1, _c2, _yPos, 0.5);
       drawDoubleHorizontalGradient(_pg, _c2, _c1, _xPos, 0.5);
     }
 
     else if(_direction == NORTH_WEST){
-      println("Gradient UP + LEFT"); 
+      println("Gradient UP + LEFT");
       drawDoubleVerticalGradient(_pg, _c1, _c2, _yPos, 0.5);
       drawDoubleHorizontalGradient(_pg, _c1, _c2, _xPos, 0.5);
     }
 
     else if(_direction == SOUTH_WEST){
-      println("Gradient DOWN + LEFT"); 
+      println("Gradient DOWN + LEFT");
       drawDoubleVerticalGradient(_pg, _c2, _c1, _yPos, 0.5);
       drawDoubleHorizontalGradient(_pg, _c1, _c2, _xPos, 0.5);
     }
 
     else if(_direction == SOUTH_EAST){
-      println("Gradient DOWN +RIGHT"); 
+      println("Gradient DOWN +RIGHT");
       drawDoubleVerticalGradient(_pg, _c2, _c1, _yPos, 0.5);
       drawDoubleHorizontalGradient(_pg, _c2, _c1, _xPos, 0.5);
     }
@@ -170,14 +170,14 @@ public class Gradient {
         color c =   (lerpColor(c1, c2, inter) & 0xffffff) | ( (int)(opacity*255) << 24) ;
         pg.stroke(c);
         pg.line(0, i, _width, i);
-       
+
       }
       for (int i = yPos ; i <= _height; i++) {
         float inter = map(i,  yPos -1, _height +1, 0, 1);
         color c =   (lerpColor(c2, c1, inter) & 0xffffff) | ( (int)(opacity*255) << 24) ;
         pg.stroke(c);
         pg.line(0, i, _width, i);
-       
+
       }
   }
 
@@ -207,10 +207,10 @@ public class Gradient {
         break;
         case GRADIENT_MODE :
           drawGradient();
-        break;  
+        break;
         case SPLIT_GRADIENT_MODE :
           drawSplitGradient();
-        break;  
+        break;
       }
       isDirty = false;
     }
@@ -273,7 +273,7 @@ public class Gradient {
   void incrementWormhole(int i){
     _wormholeSize += i;
     _wormholeSize = max(1, _wormholeSize);
-    isDirty = true; 
+    isDirty = true;
   }
 
 

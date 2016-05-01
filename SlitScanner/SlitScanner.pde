@@ -17,7 +17,7 @@ Usage:
 
 Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
-  SLITS : Only in the up direction, might run a bit faster than gradient mode. 
+  SLITS (DEPRECATED): Only in the up direction, might run a bit faster than gradient mode. 
 
 Webcam mode:
   1. Set WEBCAM_MODE to true.
@@ -30,16 +30,24 @@ Key controls:
 
 Gradient controls:
 g : toggle gradient visibility (controls still work while gradient is not displayed)
-1 : GRADIENT mode
+1 : Standard GRADIENT mode
   w: up gradient
   a: left gradient
   s: right gradient
   d: down gradient
+  Click to move the gradient around ( will produce wierd edges)
 
-2 : WORMHOLE mode
+2 : Symmetrical GRADIENT mode
+  q,w,e,a,s,d,z,c : Different directions/polarities for symmetry ( switch to the gradient view and you'll see what I mean)
+  Click/drag to move the point of symmetry around
+
+3 : WORMHOLE mode
   Click and drag to place the wormhole 
+  9 : Decrease wormhole size
+  0 : Increase wormhole size
 
-3 : PAINT mode
+
+4 : PAINT mode
   Click and drag to paint the gradient layer
   [ : Decrease brush size by 10
   ] : Increase brush size by 10
@@ -333,7 +341,7 @@ void  keyPressed() {
       g.setMode(PAINT_MODE);
     break;
     case '9':
-      g.incrementWormhole(10);
+      g.incrementWormhole(-10);
     break;
     case '0':
       g.incrementWormhole(10);

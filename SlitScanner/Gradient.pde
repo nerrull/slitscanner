@@ -274,6 +274,7 @@ public class Gradient {
     _wormholeSize += i;
     _wormholeSize = max(1, _wormholeSize);
     isDirty = true; 
+    println("Wormhole size : " + _wormholeSize);
   }
 
 

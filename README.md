@@ -34,13 +34,13 @@ This script uses a semaphore object from java.util.concurrent so if you are gett
 ##Modes (GRADIENT recommended):
   GRADIENT : Uses the pixels of a gradient to apply the effect
   
-  SLITS : Only in the up direction, might run a bit faster than gradient mode. 
+  SLITS (DEPRECATED): Only in the up direction, might run a bit faster than gradient mode. 
 
 
 ##Key controls:
 ###Gradient controls:
 g : toggle gradient visibility (controls still work while gradient is not displayed)
-####Press 1 : GRADIENT mode
+####Press 1 : Stardard GRADIENT mode
   w: up gradient
 
   a: left gradient
@@ -49,10 +49,23 @@ g : toggle gradient visibility (controls still work while gradient is not displa
 
   d: down gradient
 
-###Press 2 : WORMHOLE mode
+  Click to move the gradient around ( will produce wierd edges)
+
+###Press 2 : Symmetrical GRADIENT mode
+  q,w,e,a,s,d,z,c : Different directions/polarities for symmetry 
+  (switch to the gradient view and you'll see what I mean)
+
+  Click/drag to move the point of symmetry around
+
+
+###Press 3 : WORMHOLE mode
   Click and drag to place the wormhole 
 
-###Press 3 : PAINT mode
+  9 : Decrease wormhole size
+  
+  0 : Increase wormhole size
+
+###Press 4 : PAINT mode
   Click and drag to paint the gradient layer
 
   [ : Decrease brush size by 10
